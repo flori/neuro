@@ -1,0 +1,33 @@
+== Description
+
+A Ruby extension that provides a 2-Layer Back Propagation Neural Network,
+which can be used to categorize datasets of arbitrary size.
+
+The network can be easily stored to or restored from the hard disk with
+the help of Ruby's Marshal facility.
+
+== Author
+
+Florian Frank <mailto:flori@ping.de>
+
+== License
+
+This is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License Version 2 as published by
+the Free Software Foundation: http://www.gnu.org/copyleft/gpl.html
+
+== Download
+
+The latest version of <b>neuro</b> can be found at
+
+* http://rubyforge.org/frs/?group_id=554
+
+The homepage should be located at
+
+* http://neuro.rubyforge.org
+
+== Examples
+
+An example for optical character recognition can be found in the examples
+subdirectory. Don't forget to check out the tests subdirectory, which
+contains some additional examples.
