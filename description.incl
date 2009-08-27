@@ -1,0 +1,9 @@
+<h2>Description</h2>
+<p>
+<b>neuro</b> is a Ruby extension, that provides a 2-Layer Back Propagation
+Neural Network, which can be used to categorize datasets of arbitrary size.
+</p>
+<p>
+The network can be easily stored to or restored from the hard disk with the
+help of Ruby's Marshal facility.
+</p>

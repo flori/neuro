@@ -1,0 +1,11 @@
+{
+  "author_email":"flori@ping.de",
+  "author":"Florian Frank",
+  "documentation_url":"doc/index.html",
+  "download_url":"http://rubyforge.org/frs/?group_id=554",
+  "github_url": "http://github.com/flori/permutation/tree/master",
+  "homepage_url":"http://flori.github.com/neuro",
+  "project_name":"Neuronal Network Extension for Ruby",
+  "project_unixname":"neuro",
+  "project_url":"http://rubyforge.org/projects/neuro"
+}

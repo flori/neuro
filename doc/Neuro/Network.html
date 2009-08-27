@@ -1,0 +1,1090 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+	<title>Class: Neuro::Network</title>
+
+	<link rel="stylesheet" href="../rdoc.css" type="text/css" media="screen" />
+
+	<script src="../js/jquery.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/thickbox-compressed.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/quicksearch.js" type="text/javascript"
+		charset="utf-8"></script>
+	<script src="../js/darkfish.js" type="text/javascript"
+		charset="utf-8"></script>
+
+</head>
+<body class="class">
+
+	<div id="metadata">
+		<div id="file-metadata">
+			<div id="file-list-section" class="section">
+				<h3 class="section-header">In Files</h3>
+				<div class="section-body">
+					<ul>
+					
+						<li><a href="../ext/neuro_c.html?TB_iframe=true&amp;height=550&amp;width=785"
+							class="thickbox" title="ext/neuro.c">ext/neuro.c</a></li>
+					
+					</ul>
+				</div>
+			</div>
+
+			
+		</div>
+
+		<div id="class-metadata">
+
+			<!-- Parent Class -->
+			
+			<div id="parent-class-section" class="section">
+				<h3 class="section-header">Parent</h3>
+				
+				<p class="link">Object</p>
+				
+			</div>
+			
+
+			<!-- Namespace Contents -->
+			
+
+			<!-- Method Quickref -->
+			
+			<div id="method-list-section" class="section">
+				<h3 class="section-header">Methods</h3>
+				<ul class="link-list">
+					
+					<li><a href="#M000017">::_load</a></li>
+					
+					<li><a href="#M000018">::load</a></li>
+					
+					<li><a href="#M000000">::new</a></li>
+					
+					<li><a href="#M000013">#_dump</a></li>
+					
+					<li><a href="#M000007">#debug</a></li>
+					
+					<li><a href="#M000008">#debug=</a></li>
+					
+					<li><a href="#M000009">#debug_step</a></li>
+					
+					<li><a href="#M000010">#debug_step=</a></li>
+					
+					<li><a href="#M000002">#decide</a></li>
+					
+					<li><a href="#M000014">#dump</a></li>
+					
+					<li><a href="#M000004">#hidden_size</a></li>
+					
+					<li><a href="#M000003">#input_size</a></li>
+					
+					<li><a href="#M000001">#learn</a></li>
+					
+					<li><a href="#M000006">#learned</a></li>
+					
+					<li><a href="#M000011">#max_iterations</a></li>
+					
+					<li><a href="#M000012">#max_iterations=</a></li>
+					
+					<li><a href="#M000005">#output_size</a></li>
+					
+					<li><a href="#M000015">#to_h</a></li>
+					
+					<li><a href="#M000016">#to_s</a></li>
+					
+				</ul>
+			</div>
+			
+
+			<!-- Included Modules -->
+			
+		</div>
+
+		<div id="project-metadata">
+			
+			
+			<div id="fileindex-section" class="section project-section">
+				<h3 class="section-header">Files</h3>
+				<ul>
+				
+					<li class="file"><a href="../doc-main_txt.html">doc-main.txt</a></li>
+				
+				</ul>
+			</div>
+			
+
+			<div id="classindex-section" class="section project-section">
+				<h3 class="section-header">Class Index
+					<span class="search-toggle"><img src="../images/find.png"
+						height="16" width="16" alt="[+]"
+						title="show/hide quicksearch" /></span></h3>
+				<form action="#" method="get" accept-charset="utf-8" class="initially-hidden">
+				<fieldset>
+					<legend>Quicksearch</legend>
+					<input type="text" name="quicksearch" value=""
+						class="quicksearch-field" />
+				</fieldset>
+				</form>
+
+				<ul class="link-list">
+				
+					<li><a href="../Neuro.html">Neuro</a></li>
+				
+					<li><a href="../Neuro/Network.html">Neuro::Network</a></li>
+				
+					<li><a href="../NetworkError.html">NetworkError</a></li>
+				
+				</ul>
+				<div id="no-class-search-results" style="display: none;">No matching classes.</div>
+			</div>
+
+			
+		</div>
+	</div>
+
+	<div id="documentation">
+		<h1 class="class">Neuro::Network</h1>
+
+		<div id="description">
+			
+		</div>
+
+		<!-- Constants -->
+		
+
+		<!-- Attributes -->
+		
+
+		<!-- Methods -->
+		
+		<div id="public-class-method-details" class="method-section section">
+			<h3 class="section-header">Public Class Methods</h3>
+
+		
+			<div id="-load-method" class="method-detail ">
+				<a name="M000017"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-callseq">load(string)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Creates a <a href="Network.html">Network</a> object plus state from the
+Marshal dumped string <em>string</em>, and returns it.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="-load-source">
+<pre>
+static VALUE rb_network_load(VALUE klass, VALUE string)
+{
+    VALUE input_size, hidden_size, output_size, learned,
+        hidden_layer, output_layer, pair[2];
+    Network *network;
+    VALUE hash = rb_marshal_load(string);
+    input_size = rb_hash_aref(hash, SYM(&quot;input_size&quot;));
+    hidden_size = rb_hash_aref(hash, SYM(&quot;hidden_size&quot;));
+    output_size = rb_hash_aref(hash, SYM(&quot;output_size&quot;));
+    learned = rb_hash_aref(hash, SYM(&quot;learned&quot;));
+        Check_Type(input_size, T_FIXNUM);
+        Check_Type(hidden_size, T_FIXNUM);
+        Check_Type(output_size, T_FIXNUM);
+        Check_Type(learned, T_FIXNUM);
+    network = Network_allocate();
+    Network_init(network, NUM2INT(input_size), NUM2INT(hidden_size),
+            NUM2INT(output_size), NUM2INT(learned));
+    hidden_layer = rb_hash_aref(hash, SYM(&quot;hidden_layer&quot;));
+    output_layer = rb_hash_aref(hash, SYM(&quot;output_layer&quot;));
+    Check_Type(hidden_layer, T_ARRAY);
+    Check_Type(output_layer, T_ARRAY);
+    pair[0] = (VALUE) network-&gt;hidden_layer;
+    pair[1] = (VALUE) 0;
+    rb_iterate(rb_each, hidden_layer, setup_layer_i, (VALUE) pair);
+    pair[0] = (VALUE) network-&gt;output_layer;
+    pair[1] = (VALUE) 0;
+    rb_iterate(rb_each, output_layer, setup_layer_i, (VALUE) pair);
+    return Data_Wrap_Struct(klass, NULL, rb_network_free, network);
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="load-method" class="method-detail ">
+				<a name="M000018"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-callseq">load(string)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Creates a <a href="Network.html">Network</a> object plus state from the
+Marshal dumped string <em>string</em>, and returns it.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="load-source">
+<pre>
+static VALUE rb_network_load(VALUE klass, VALUE string)
+{
+    VALUE input_size, hidden_size, output_size, learned,
+        hidden_layer, output_layer, pair[2];
+    Network *network;
+    VALUE hash = rb_marshal_load(string);
+    input_size = rb_hash_aref(hash, SYM(&quot;input_size&quot;));
+    hidden_size = rb_hash_aref(hash, SYM(&quot;hidden_size&quot;));
+    output_size = rb_hash_aref(hash, SYM(&quot;output_size&quot;));
+    learned = rb_hash_aref(hash, SYM(&quot;learned&quot;));
+        Check_Type(input_size, T_FIXNUM);
+        Check_Type(hidden_size, T_FIXNUM);
+        Check_Type(output_size, T_FIXNUM);
+        Check_Type(learned, T_FIXNUM);
+    network = Network_allocate();
+    Network_init(network, NUM2INT(input_size), NUM2INT(hidden_size),
+            NUM2INT(output_size), NUM2INT(learned));
+    hidden_layer = rb_hash_aref(hash, SYM(&quot;hidden_layer&quot;));
+    output_layer = rb_hash_aref(hash, SYM(&quot;output_layer&quot;));
+    Check_Type(hidden_layer, T_ARRAY);
+    Check_Type(output_layer, T_ARRAY);
+    pair[0] = (VALUE) network-&gt;hidden_layer;
+    pair[1] = (VALUE) 0;
+    rb_iterate(rb_each, hidden_layer, setup_layer_i, (VALUE) pair);
+    pair[0] = (VALUE) network-&gt;output_layer;
+    pair[1] = (VALUE) 0;
+    rb_iterate(rb_each, output_layer, setup_layer_i, (VALUE) pair);
+    return Data_Wrap_Struct(klass, NULL, rb_network_free, network);
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="new-method" class="method-detail ">
+				<a name="M000000"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-callseq">new(input_size, hidden_size, output_size)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns a <a href="Network.html">Neuro::Network</a> instance of the given
+size specification.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="new-source">
+<pre>
+static VALUE rb_network_initialize(int argc, VALUE *argv, VALUE self)
+{
+    Network *network;
+    VALUE input_size, hidden_size, output_size;
+
+    rb_scan_args(argc, argv, &quot;3&quot;, &amp;input_size, &amp;hidden_size, &amp;output_size);
+        Check_Type(input_size, T_FIXNUM);
+        Check_Type(hidden_size, T_FIXNUM);
+        Check_Type(output_size, T_FIXNUM);
+    Data_Get_Struct(self, Network, network);
+    Network_init(network, NUM2INT(input_size), NUM2INT(hidden_size),
+        NUM2INT(output_size), 0);
+    Network_init_weights(network);
+    return self;
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+		</div>
+	
+		<div id="public-instance-method-details" class="method-section section">
+			<h3 class="section-header">Public Instance Methods</h3>
+
+		
+			<div id="-dump-method" class="method-detail ">
+				<a name="M000013"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">_dump</span><span
+						class="method-args">(...)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the serialized data for this <a href="Network.html">Network</a>
+instance for the Marshal module.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="-dump-source">
+<pre>
+static VALUE rb_network_dump(int argc, VALUE *argv, VALUE self)
+{
+    VALUE port = Qnil, hash;
+    Network *network;
+
+    rb_scan_args(argc, argv, &quot;01&quot;, &amp;port);
+    Data_Get_Struct(self, Network, network);
+    hash = Network_to_hash(network);
+    return rb_marshal_dump(hash, port);
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="debug-method" class="method-detail ">
+				<a name="M000007"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">debug</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns nil, if debugging is switchted off. Returns the IO object, that is
+used for debugging output, if debugging is switchted on.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="debug-source">
+<pre>
+static VALUE rb_network_debug(VALUE self)
+{
+    Network *network;
+
+    Data_Get_Struct(self, Network, network);
+    return network-&gt;debug;
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="debug--method" class="method-detail ">
+				<a name="M000008"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-callseq">debug=(io)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Switches debugging on, if <em>io</em> is an IO object. If it is nil,
+debugging is switched off.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="debug--source">
+<pre>
+static VALUE rb_network_debug_set(VALUE self, VALUE io)
+{
+    Network *network;
+
+    Data_Get_Struct(self, Network, network);
+    network-&gt;debug = io;
+    return io;
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="debug-step-method" class="method-detail ">
+				<a name="M000009"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">debug_step</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the Integer number of steps, that are done during learning, before
+a debugging message is printed to <a href="Network.html#M000007">debug</a>.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="debug-step-source">
+<pre>
+static VALUE rb_network_debug_step(VALUE self)
+{
+    Network *network;
+
+    Data_Get_Struct(self, Network, network);
+    return INT2NUM(network-&gt;debug_step);
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="debug-step--method" class="method-detail ">
+				<a name="M000010"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-callseq">debug_step=(step)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Sets the number of steps, that are done during learning, before a debugging
+message is printed to <em>step</em>. If <em>step</em> is equal to or less
+than 0 the default value (=1000) is set.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="debug-step--source">
+<pre>
+static VALUE rb_network_debug_step_set(VALUE self, VALUE step)
+{
+    Network *network;
+
+    Data_Get_Struct(self, Network, network);
+    Check_Type(step, T_FIXNUM);
+    network-&gt;debug_step = NUM2INT(step);
+    if (network-&gt;debug_step &lt;= 0) network-&gt;debug_step = DEFAULT_DEBUG_STEP;
+    return step;
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="decide-method" class="method-detail ">
+				<a name="M000002"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-callseq">decide(data)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+The network is given the Array <em>data</em> (size has to be == <a
+href="Network.html#M000003">input_size</a>), and it responds with another
+Array (size == <a href="Network.html#M000005">output_size</a>) by returning
+it.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="decide-source">
+<pre>
+static VALUE rb_network_decide(VALUE self, VALUE data)
+{
+    Network *network;
+    VALUE result;
+    int i;
+
+    Data_Get_Struct(self, Network, network);
+
+        Check_Type(data, T_ARRAY);
+    if (RARRAY(data)-&gt;len != network-&gt;input_size)
+        rb_raise(rb_cNeuroError, &quot;size of data != input_size&quot;);
+    transform_data(network-&gt;tmp_input, data);
+    feed;
+    result = rb_ary_new2(network-&gt;output_size);
+    for (i = 0; i &lt; network-&gt;output_size; i++) {
+        rb_ary_store(result, i,
+            rb_float_new(network-&gt;output_layer[i]-&gt;output));
+    }
+    return result;
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="dump-method" class="method-detail ">
+				<a name="M000014"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">dump</span><span
+						class="method-args">(...)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the serialized data for this <a href="Network.html">Network</a>
+instance for the Marshal module.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="dump-source">
+<pre>
+static VALUE rb_network_dump(int argc, VALUE *argv, VALUE self)
+{
+    VALUE port = Qnil, hash;
+    Network *network;
+
+    rb_scan_args(argc, argv, &quot;01&quot;, &amp;port);
+    Data_Get_Struct(self, Network, network);
+    hash = Network_to_hash(network);
+    return rb_marshal_dump(hash, port);
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="hidden-size-method" class="method-detail ">
+				<a name="M000004"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">hidden_size</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the <em><a href="Network.html#M000004">hidden_size</a></em> of this
+<a href="Network.html">Network</a> as an Integer. This is the number of
+nodes in the hidden layer.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="hidden-size-source">
+<pre>
+static VALUE rb_network_hidden_size(VALUE self)
+{
+    Network *network;
+
+    Data_Get_Struct(self, Network, network);
+    return INT2NUM(network-&gt;hidden_size);
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="input-size-method" class="method-detail ">
+				<a name="M000003"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">input_size</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the <em><a href="Network.html#M000003">input_size</a></em> of this
+<a href="Network.html">Network</a> as an Integer. This is the number of
+weights, that are connected to the input of the hidden layer.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="input-size-source">
+<pre>
+static VALUE rb_network_input_size(VALUE self)
+{
+    Network *network;
+
+    Data_Get_Struct(self, Network, network);
+    return INT2NUM(network-&gt;input_size);
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="learn-method" class="method-detail ">
+				<a name="M000001"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-callseq">learn(data, desired, max_error, eta)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+The network should respond with the Array <em>desired</em> (size == <a
+href="Network.html#M000005">output_size</a>), if it was given the Array
+<em>data</em> (size == <a href="Network.html#M000003">input_size</a>). The
+learning process ends, if the resulting error sinks below
+<em>max_error</em> and convergence is assumed. A lower <em>eta</em>
+parameter leads to slower learning, because of low weight changes. A too
+high <em>eta</em> can lead to wildly oscillating weights, and result in
+slower learning or no learning at all. The last two parameters should be
+chosen appropriately to the problem at hand. ;)
+</p>
+<p>
+The return value is an Integer value, that denotes the number of learning
+steps, which were necessary, to learn the <em>data</em>, or <em><a
+href="Network.html#M000011">max_iterations</a></em>, if the <em>data</em>
+couldn&#8217;t be learned.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="learn-source">
+<pre>
+static VALUE rb_network_learn(VALUE self, VALUE data, VALUE desired, VALUE
+        max_error, VALUE eta)
+{
+    Network *network;
+    double max_error_float, eta_float, error, sum,
+        *output_delta, *hidden_delta;
+    int i, j, count;
+
+    Data_Get_Struct(self, Network, network);
+
+        Check_Type(data, T_ARRAY);
+    if (RARRAY(data)-&gt;len != network-&gt;input_size)
+        rb_raise(rb_cNeuroError, &quot;size of data != input_size&quot;);
+    transform_data(network-&gt;tmp_input, data);
+
+        Check_Type(desired, T_ARRAY);
+    if (RARRAY(desired)-&gt;len != network-&gt;output_size)
+        rb_raise(rb_cNeuroError, &quot;size of desired != output_size&quot;);
+    transform_data(network-&gt;tmp_output, desired);
+    CAST2FLOAT(max_error);
+    max_error_float = RFLOAT(max_error)-&gt;value;
+    if (max_error_float &lt;= 0) rb_raise(rb_cNeuroError, &quot;max_error &lt;= 0&quot;);
+    max_error_float *= 2.0;
+    CAST2FLOAT(eta);
+    eta_float = RFLOAT(eta)-&gt;value;
+    if (eta_float &lt;= 0) rb_raise(rb_cNeuroError, &quot;eta &lt;= 0&quot;);
+
+    output_delta = ALLOCA_N(double, network-&gt;output_size);
+    hidden_delta = ALLOCA_N(double, network-&gt;hidden_size);
+    for(count = 0; count &lt; network-&gt;max_iterations; count++) {
+        feed;
+
+        /* Compute output weight deltas and current error */
+        error = 0.0;    
+        for (i = 0; i &lt; network-&gt;output_size; i++) {
+            output_delta[i] = network-&gt;tmp_output[i] -
+                network-&gt;output_layer[i]-&gt;output;
+            error += output_delta[i] * output_delta[i];
+            output_delta[i] *= network-&gt;output_layer[i]-&gt;output *
+                (1.0 - network-&gt;output_layer[i]-&gt;output);
+            /* diff * (sigmoid' = 2 * output  * beta * (1 - output)) */
+
+        }
+
+        if (count % network-&gt;debug_step == 0)
+            Network_debug_error(network, count, error, max_error_float);
+
+        /* Get out if error is below max_error ^ 2 */
+        if (error &lt; max_error_float) goto CONVERGED;
+
+        /* Compute hidden weight deltas */
+        
+                for (i = 0; i &lt; network-&gt;hidden_size; i++) {
+            sum = 0.0;
+                        for (j = 0; j &lt; network-&gt;output_size; j++)
+                                sum += output_delta[j] *
+                    network-&gt;output_layer[j]-&gt;weights[i];
+                        hidden_delta[i] = sum * network-&gt;hidden_layer[i]-&gt;output *
+                (1.0 - network-&gt;hidden_layer[i]-&gt;output);
+            /* sum * (sigmoid' = 2 * output  * beta * (1 - output)) */
+                }
+        
+        /* Adjust weights */
+
+                for (i = 0; i &lt; network-&gt;output_size; i++)
+                        for (j = 0; j &lt; network-&gt;hidden_size; j++)
+                network-&gt;output_layer[i]-&gt;weights[j] +=
+                    eta_float * output_delta[i] *
+                    network-&gt;hidden_layer[j]-&gt;output;
+
+                for (i = 0; i &lt; network-&gt;hidden_size; i++)
+                        for (j = 0; j &lt; network-&gt;input_size; j++)
+                                network-&gt;hidden_layer[i]-&gt;weights[j] += eta_float *
+                    hidden_delta[i] * network-&gt;tmp_input[j];
+    }
+    Network_debug_bail_out(network);
+CONVERGED:
+    network-&gt;learned++;
+    return INT2NUM(count);
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="learned-method" class="method-detail ">
+				<a name="M000006"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">learned</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the number of calls to <a href="Network.html#M000001">learn</a> as
+an integer.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="learned-source">
+<pre>
+static VALUE rb_network_learned(VALUE self)
+{
+    Network *network;
+
+    Data_Get_Struct(self, Network, network);
+    return INT2NUM(network-&gt;learned);
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="max-iterations-method" class="method-detail ">
+				<a name="M000011"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">max_iterations</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the maximal number of iterations, that are done before <a
+href="Network.html#M000001">learn</a> gives up and returns without having
+learned the given <em>data</em>.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="max-iterations-source">
+<pre>
+static VALUE rb_network_max_iterations(VALUE self)
+{
+    Network *network;
+
+    Data_Get_Struct(self, Network, network);
+    return INT2NUM(network-&gt;max_iterations);
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="max-iterations--method" class="method-detail ">
+				<a name="M000012"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-callseq">max_iterations=(iterations)</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Sets the maximal number of iterations, that are done before <a
+href="Network.html#M000001">learn</a> gives up and returns without having
+learned the given <em>data</em>, to <em>iterations</em>. If
+<em>iterations</em> is equal to or less than 0, the default value (=10_000)
+is set.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="max-iterations--source">
+<pre>
+static VALUE rb_network_max_iterations_set(VALUE self, VALUE iterations)
+{
+    Network *network;
+
+    Data_Get_Struct(self, Network, network);
+    Check_Type(iterations, T_FIXNUM);
+    network-&gt;max_iterations = NUM2INT(iterations);
+    if (network-&gt;max_iterations &lt;= 0)
+        network-&gt;max_iterations = DEFAULT_MAX_ITERATIONS;
+    return iterations;
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="output-size-method" class="method-detail ">
+				<a name="M000005"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">output_size</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the <em><a href="Network.html#M000005">output_size</a></em> of this
+<a href="Network.html">Network</a> as an Integer. This is the number of
+nodes in the output layer.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="output-size-source">
+<pre>
+static VALUE rb_network_output_size(VALUE self)
+{
+    Network *network;
+
+    Data_Get_Struct(self, Network, network);
+    return INT2NUM(network-&gt;output_size);
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="to-h-method" class="method-detail ">
+				<a name="M000015"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">to_h</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns the state of the network as a Hash.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="to-h-source">
+<pre>
+static VALUE rb_network_to_h(VALUE self)
+{
+    Network *network;
+
+    Data_Get_Struct(self, Network, network);
+    return Network_to_hash(network);
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+			<div id="to-s-method" class="method-detail ">
+				<a name="M000016"></a>
+
+				<div class="method-heading">
+				
+					<span class="method-name">to_s</span><span
+						class="method-args">()</span>
+					<span class="method-click-advice">click to toggle source</span>
+				
+				</div>
+
+				<div class="method-description">
+					
+					<p>
+Returns a short string for the network.
+</p>
+					
+
+					
+					<div class="method-source-code"
+						id="to-s-source">
+<pre>
+static VALUE rb_network_to_s(VALUE self)
+{
+    Network *network;
+    VALUE argv[5];
+    int argc = 5;
+
+    Data_Get_Struct(self, Network, network);
+    argv[0] = rb_str_new2(&quot;#&lt;%s:%u,%u,%u&gt;&quot;);
+    argv[1] = rb_funcall(self, id_class, 0, 0);
+    argv[1] = rb_funcall(argv[1], id_name, 0, 0);
+    argv[2] = INT2NUM(network-&gt;input_size);
+    argv[3] = INT2NUM(network-&gt;hidden_size);
+    argv[4] = INT2NUM(network-&gt;output_size);
+    return rb_f_sprintf(argc, argv);
+}</pre>
+					</div>
+					
+				</div>
+
+				
+			</div>
+
+		
+		</div>
+	
+
+	</div>
+
+
+	<div id="rdoc-debugging-section-dump" class="debugging-section">
+	
+		<p>Disabled; run with --debug to generate this.</p>
+	
+	</div>
+
+	<div id="validator-badges">
+		<p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+		<p><small>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish
+			Rdoc Generator</a> 1.1.6</small>.</p>
+	</div>
+
+</body>
+</html>
+
