@@ -71,6 +71,7 @@ EOF
       s.require_paths << 'ext' << 'lib'
 
       s.has_rdoc = true
+      s.extra_rdoc_files << 'doc-main.txt'
       s.rdoc_options << '--main' << 'doc-main.txt' << '--title' << 'Neural Network Extension for Ruby'
       s.test_files.concat #{Dir['tests/test_*.rb'].to_a.sort.inspect}
 
