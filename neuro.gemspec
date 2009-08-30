@@ -7,7 +7,7 @@ A Ruby extension that provides a 2-Layer Back Propagation Neural Network, which
 can be used to categorize datasets of arbitrary size.
 EOF
 
-      s.files = ["Rakefile", "VERSION", "examples", "examples/ocr.rb", "ext", "ext/extconf.rb", "ext/neuro.c", "install.rb", "lib", "lib/neuro", "lib/neuro/display.rb", "lib/neuro/version.rb", "neuro.gemspec", "tests", "tests/test_even_odd.rb", "tests/test_parity.rb"]
+      s.files = ["CHANGES", "Rakefile", "VERSION", "examples", "examples/ocr.rb", "ext", "ext/extconf.rb", "ext/neuro.c", "install.rb", "lib", "lib/neuro", "lib/neuro/display.rb", "lib/neuro/version.rb", "neuro.gemspec", "tests", "tests/test_even_odd.rb", "tests/test_parity.rb"]
 
       s.extensions = "ext/extconf.rb"
 
