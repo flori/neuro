@@ -1,3 +1,5 @@
+# vim: set filetype=ruby et sw=2 ts=2:
+
 begin
   require 'rake/gempackagetask'
   require 'rake/extensiontask'
