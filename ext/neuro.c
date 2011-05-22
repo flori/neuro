@@ -24,7 +24,7 @@ static ID id_to_f, id_class, id_name;
 /* Infrastructure */
 
 typedef struct NodeStruct {
-    int      number_weights;
+    long      number_weights;
     double   *weights;
     double   output;
 } Node;
@@ -46,10 +46,10 @@ typedef struct NetworkStruct {
 
 /* Node methods */
 
-static Node *Node_create(int weights)
+static Node *Node_create(long weights)
 {
     Node *node;
-    int i;
+    long i;
     assert(weights > 0);
     node = ALLOC(Node);
     MEMZERO(node, Node, 1);
@@ -63,17 +63,17 @@ static Node *Node_create(int weights)
 
 static Node *Node_from_hash(VALUE hash)
 {
+    long i, len;
     Node *node;
     VALUE weights = rb_hash_aref(hash, SYM("weights"));
     VALUE output = rb_hash_aref(hash, SYM("output"));
-    int i, len;
     Check_Type(output, T_FLOAT);
     Check_Type(weights, T_ARRAY);
-    len = RARRAY(weights)->len;
+    len = RARRAY_LEN(weights);
     node = Node_create(len);
-    node->output = RFLOAT(output)->value;
+    node->output = RFLOAT_VALUE(output);
     for (i = 0; i < len; i++)
-        node->weights[i] = RFLOAT(rb_ary_entry(weights, i))->value;
+        node->weights[i] = RFLOAT_VALUE(rb_ary_entry(weights, i));
     return node;
 }
 
@@ -88,7 +88,7 @@ static void Node_destroy(Node *node)
 static VALUE Node_to_hash(Node *node)
 {
     VALUE result = rb_hash_new(), weights = rb_ary_new2(node->number_weights);
-    int i;
+    long i;
     rb_hash_aset(result, SYM("output"), rb_float_new(node->output));
     for (i = 0; i < node->number_weights; i++)
         rb_ary_store(weights, i, rb_float_new(node->weights[i]));
@@ -138,7 +138,7 @@ static void Network_init_weights(Network *network)
         network->output_layer[i] = Node_create(network->hidden_size);
 }
 
-static void Network_debug_error(Network *network, int count, float error, float
+static void Network_debug_error(Network *network, long count, double error, double
         max_error)
 {
     VALUE argv[5];
@@ -192,10 +192,10 @@ static void transform_data(double *data_vector, VALUE data)
 {
     int i;
     VALUE current;
-    for (i = 0; i < RARRAY(data)->len; i++) {
+    for (i = 0; i < RARRAY_LEN(data); i++) {
         current = rb_ary_entry(data, i);
         CAST2FLOAT(current);
-        data_vector[i] = RFLOAT(current)->value;
+        data_vector[i] = RFLOAT_VALUE(current);
     }
 }
 
@@ -237,25 +237,25 @@ static VALUE rb_network_learn(VALUE self, VALUE data, VALUE desired, VALUE
     Network *network;
     double max_error_float, eta_float, error, sum,
         *output_delta, *hidden_delta;
-    int i, j, count;
+    long i, j, count;
 
     Data_Get_Struct(self, Network, network);
 
 	Check_Type(data, T_ARRAY);
-    if (RARRAY(data)->len != network->input_size)
+    if (RARRAY_LEN(data) != network->input_size)
         rb_raise(rb_cNeuroError, "size of data != input_size");
     transform_data(network->tmp_input, data);
 
 	Check_Type(desired, T_ARRAY);
-    if (RARRAY(desired)->len != network->output_size)
+    if (RARRAY_LEN(desired) != network->output_size)
         rb_raise(rb_cNeuroError, "size of desired != output_size");
     transform_data(network->tmp_output, desired);
     CAST2FLOAT(max_error);
-    max_error_float = RFLOAT(max_error)->value;
+    max_error_float = RFLOAT_VALUE(max_error);
     if (max_error_float <= 0) rb_raise(rb_cNeuroError, "max_error <= 0");
     max_error_float *= 2.0;
     CAST2FLOAT(eta);
-    eta_float = RFLOAT(eta)->value;
+    eta_float = RFLOAT_VALUE(eta);
     if (eta_float <= 0) rb_raise(rb_cNeuroError, "eta <= 0");
 
     output_delta = ALLOCA_N(double, network->output_size);
@@ -322,12 +322,12 @@ static VALUE rb_network_decide(VALUE self, VALUE data)
 {
     Network *network;
     VALUE result;
-    int i;
+    long i;
 
     Data_Get_Struct(self, Network, network);
 
 	Check_Type(data, T_ARRAY);
-    if (RARRAY(data)->len != network->input_size)
+    if (RARRAY_LEN(data) != network->input_size)
         rb_raise(rb_cNeuroError, "size of data != input_size");
     transform_data(network->tmp_input, data);
     feed;
@@ -515,7 +515,7 @@ static void rb_network_mark(Network *network)
 
 static void rb_network_free(Network *network)
 {
-    int i;
+    long i;
     for (i = 0; i < network->hidden_size; i++)
         Node_destroy(network->hidden_layer[i]);
     MEMZERO(network->hidden_layer, Node*, network->hidden_size);

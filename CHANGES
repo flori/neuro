@@ -1,3 +1,5 @@
+2011-05-22 (0.4.2)
+  * 1.9.2 compatibility
 2009-08-27 (0.4.1)
   * Started using rake-compiler.
   * Some reorganisation of the repository contents, documentation etc.

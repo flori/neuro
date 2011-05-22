@@ -2,7 +2,6 @@
 
 begin
   require 'rake/gempackagetask'
-  require 'rake/extensiontask'
 rescue LoadError
 end
 
@@ -23,7 +22,7 @@ task :default => :test
 
 desc "Run unit tests"
 task :test => :compile_ext do
-  sh 'testrb -Iext:lib tests/test_*.rb'
+  sh 'testrb -Iext:lib ./tests/test_*.rb'
 end
 
 desc "Creating documentation"
@@ -53,8 +52,7 @@ task :install => :test do
   install(src, dst, :verbose => true, :mode => 0644)
 end
 
-if defined?(Gem) and defined?(Rake::GemPackageTask) and
-  defined?(Rake::ExtensionTask)
+if defined?(Gem) and defined?(Rake::GemPackageTask)
 then
   spec_src = <<-GEM
     Gem::Specification.new do |s|
@@ -79,7 +77,7 @@ EOF
 
       s.author = "Florian Frank"
       s.email = "flori@ping.de"
-      s.homepage = "http://neuro.rubyforge.org"
+      s.homepage = "http://flori.github.com/#{PKG_NAME}"
       s.rubyforge_project = '#{PKG_NAME}'
     end
   GEM
@@ -95,15 +93,6 @@ EOF
   Rake::GemPackageTask.new(spec) do |pkg|
     pkg.need_tar      = true
     pkg.package_files = PKG_FILES
-  end
-
-  Rake::ExtensionTask.new do |ext|
-    ext.name            = PKG_NAME
-    ext.gem_spec        = spec
-    ext.cross_compile   = true
-    ext.cross_platform  = 'i386-mswin32'
-    ext.ext_dir         = 'ext'
-    ext.lib_dir         = 'lib'
   end
 end
 
@@ -127,7 +116,4 @@ end
 task :default => [ :version, :gemspec, :test ]
 
 desc "Build all gems and archives for a new release."
-task :release => [ :clean, :version, :gemspec, :cross, :native, :gem ] do
-  system "#$0 clean native gem"
-  system "#$0 clean package"
-end
+task :release => [ :clean, :version, :gemspec, :package]

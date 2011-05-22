@@ -1,6 +1,6 @@
     Gem::Specification.new do |s|
       s.name = 'neuro'
-      s.version = '0.4.1'
+      s.version = '0.4.2'
       s.summary = "Neural Network Extension for Ruby"
       s.description = <<EOF
 A Ruby extension that provides a 2-Layer Back Propagation Neural Network, which
@@ -20,6 +20,6 @@ EOF
 
       s.author = "Florian Frank"
       s.email = "flori@ping.de"
-      s.homepage = "http://neuro.rubyforge.org"
+      s.homepage = "http://flori.github.com/neuro"
       s.rubyforge_project = 'neuro'
     end
