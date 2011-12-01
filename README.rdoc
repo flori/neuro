@@ -1,3 +1,5 @@
+= Neuro - Neural Network Extension for Ruby
+
 == Description
 
 A Ruby extension that provides a 2-Layer Back Propagation Neural Network,
@@ -18,13 +20,11 @@ the Free Software Foundation: http://www.gnu.org/copyleft/gpl.html
 
 == Download
 
-The latest version of <b>neuro</b> can be found at
+The homepage should be located at http://flori.github.com/neuro
 
-* http://rubyforge.org/frs/?group_id=554
+Typing this into the shell should install the newest version.
 
-The homepage should be located at
-
-* http://neuro.rubyforge.org
+    $ gem install neuro
 
 == Examples
 

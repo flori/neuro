@@ -1,3 +1,8 @@
+2011-12-01 (0.4.3)
+  * Fix remaining Ruby 1.9 bug in ocr.rb example that caused the example network
+    not to converge.
+  * Use gem_hadar library.
+  * Test on travis-ci now.
 2011-05-22 (0.4.2)
   * 1.9.2 compatibility
 2009-08-27 (0.4.1)

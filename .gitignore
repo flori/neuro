@@ -1,3 +1,4 @@
+*.dump
 .*.sw[pon]
-coverage
+Gemfile.lock
 pkg
