@@ -1,4 +1,3 @@
-*.dump
 .*.sw[pon]
 Gemfile.lock
 pkg

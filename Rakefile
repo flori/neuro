@@ -13,7 +13,8 @@ A Ruby extension that provides a 2-Layer Back Propagation Neural Network, which
 can be used to categorize datasets of arbitrary size.
 EOT
   test_dir    'tests'
-  ignore      '.*.sw[pon]', 'pkg', 'Gemfile.lock', '*.dump'
+  ignore      '.*.sw[pon]', 'pkg', 'Gemfile.lock'
+  clean       '*.dump'
   title       "#{name.camelize} - #{summary}"
   readme      'README.rdoc'
   require_paths %w[lib ext]
