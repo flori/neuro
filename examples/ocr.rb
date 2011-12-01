@@ -42,7 +42,7 @@ class OCR
     vector = []
     7.times do |j|
       c = CHAR_BTIMAP[j][6 * number, 5]
-      vector += c.enum_for(:each_byte).map { |x| x == ?* ? 1.0 : -1.0 }
+      vector += c.split(//).map { |x| x == '*' ? 1.0 : -1.0 }
     end
     CHARACTERS << Character.new(char, number, vector)
   end
@@ -62,7 +62,7 @@ class OCR
       eta = 0.2
       max_count = CHARACTERS.size * 10
       count = max_count
-      until count < max_error
+      until count < max_count
         count = 0
         CHARACTERS.sort_by { rand }.each do |character|
           count += @network.learn(character.vector,
